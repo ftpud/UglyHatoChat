@@ -1,4 +1,8 @@
 const http = require('node:http');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const indexHtml = fs.readFileSync(path.join(__dirname, 'index.html'));
 
 function createApp() {
   const items = new Map();
@@ -40,6 +44,14 @@ function createApp() {
     const url = new URL(req.url, 'http://localhost');
     const { pathname } = url;
     const method = req.method;
+
+    if (pathname === '/' && method === 'GET') {
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Length': indexHtml.length,
+      });
+      return res.end(indexHtml);
+    }
 
     if (pathname === '/health' && method === 'GET') {
       return send(res, 200, { status: 'ok', uptime: (Date.now() - startedAt) / 1000 });
