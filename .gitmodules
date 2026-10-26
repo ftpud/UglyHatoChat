@@ -1,0 +1,3 @@
+[submodule "UglyAppFw"]
+	path = UglyAppFw
+	url = https://github.com/ftpud/UglyAppFw.git
